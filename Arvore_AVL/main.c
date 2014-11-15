@@ -10,14 +10,42 @@ int main(int argc, char **argv)
 	printf("\n");
 	ImprimePreOrdem(A);
 	getch();
+	
 	insereAVL(20,&A);
 	printf("\n");
 	ImprimePreOrdem(A);
 	getch();
+	
 	insereAVL(15,&A);
 	printf("\n");
 	ImprimePreOrdem(A);
 	getch();
+	
+	insereAVL(5,&A);
+	printf("\n");
+	ImprimePreOrdem(A);
+	getch();
+	
+	insereAVL(1,&A);
+	printf("\n");
+	ImprimePreOrdem(A);
+	getch();
+	
+	insereAVL(12,&A);
+	printf("\n");
+	ImprimePreOrdem(A);
+	getch();
+	
+	insereAVL(25,&A);
+	printf("\n");
+	ImprimePreOrdem(A);
+	getch();
+	
+	insereAVL(30,&A);
+	printf("\n");
+	ImprimePreOrdem(A);
+	getch();
+	
 	//insereAVL(20,A);
 	//Insere(18,A);
 	//insereAVL(25,A);
@@ -58,6 +86,7 @@ int main(int argc, char **argv)
 	getch();
 	*/
 	
+	printf("\n");
 	ImprimePreOrdem(A);
 	//printf("\n\n%d",C->Dado);
 	

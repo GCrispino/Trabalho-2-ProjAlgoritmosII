@@ -108,7 +108,7 @@ void RE(Apontador *A,Apontador P, Apontador U){
 	//"PaiP" é o pai do apontador P.
 	Apontador PaiP = buscaApontador(*A,P),aux;
 	if (PaiP == 0){//significa que o "P" da vez é a raíz, portanto esse nó não tem pai
-		P = *A;
+		//P = *A;
 		*A = U;
 		
 		aux = U->esq;
@@ -145,37 +145,24 @@ void RD(Apontador *A,Apontador P, Apontador U){
 	//"PaiP" é o pai do apontador P.
 	Apontador PaiP = buscaApontador(*A,P),aux;
 	if (PaiP == 0){//significa que o "P" da vez é a raíz, portanto esse nó não tem pai
-		//PaiP = A; //é atribuído ao apontador "PaiP" o apontador da raíz, para que a função prossiga normalmente.
-		
-		aux = *A;
 		*A = U;
-		
-		if (U->dir)
-			aux = U->dir;
-		else
-			aux = NULL;
-			
-		U->dir = aux;
+		aux = U->dir;
+		U->dir = P;
+		P->esq = aux;
 	}
 	else{
 		if (PaiP->dir == P){
 			PaiP->dir = U;
 					
-			if (U->dir)
-				aux = U->dir;
-			else
-				aux = NULL;
+			aux = U->dir;
 			
 			U->dir = P;
-			P->esq = NULL;
+			P->esq = aux;
 		}
 		else{
 			PaiP->esq = U;
 						
-			if (U->dir)
-				aux = U->dir;
-			else
-				aux = NULL;
+			aux = U->dir;
 							
 			U->dir = P;
 			P->esq = aux;
