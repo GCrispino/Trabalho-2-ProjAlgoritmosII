@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "AVL.h"
 
 int main(int argc, char **argv)
@@ -50,7 +51,33 @@ int main(int argc, char **argv)
 	//Insere(18,A);
 	//insereAVL(25,A);
 	
+	removeAVL(10,&A);
+	printf("\n");
+	ImprimePreOrdem(A);
+	getch();
 	
+	removeAVL(20,&A);
+	printf("\n");
+	ImprimePreOrdem(A);
+	getch();
+	
+	removeAVL(15,&A);
+	printf("\n");
+	ImprimePreOrdem(A);
+	getch();
+	
+	removeAVL(25,&A);
+	printf("\n");
+	ImprimePreOrdem(A);
+	getch();
+	
+	removeAVL(30,&A);
+	printf("\n");
+	ImprimePreOrdem(A);
+	getch();
+	
+	//printf("\nT = %d",T->Dado);
+	//getch();
 	
 	/*insereAVL(10,A);
 	printf("\n");
@@ -88,7 +115,6 @@ int main(int argc, char **argv)
 	
 	printf("\n");
 	ImprimePreOrdem(A);
-	//printf("\n\n%d",C->Dado);
 	
 	
 	/*printf("\n");

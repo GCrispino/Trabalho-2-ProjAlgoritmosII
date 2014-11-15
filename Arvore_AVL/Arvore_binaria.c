@@ -123,3 +123,17 @@ int nNiveis(Apontador A){
 	else
 		return v + 1;
 }
+
+int achaUltimo(Apontador A,int direcao){
+	if (direcao == 0)
+		while(A->esq != NULL)
+			A = A->esq;
+	else if (direcao == 1)
+		while(A->dir != NULL)
+			A = A->dir;
+	else
+		return -1;
+	//printf("\nA: %d",A->Dado);
+	
+	return A->Dado;
+}

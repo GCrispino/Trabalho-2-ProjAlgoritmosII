@@ -11,8 +11,7 @@ bool isBalanceada(Apontador A){
 		return true;
 }
 
-//verifica se uma árvore está balanceada a partir de um certo nó. Caso contrário, retorna um ponteiro para o primeiro
-//nó desbalanceado vindo a partir do nó passado
+
 Apontador verificaBalanceamento(int chave, Apontador A){
 	Apontador T = NULL;
 	
@@ -49,6 +48,63 @@ void insereAVL(int chave, Apontador *A){
 	
 	Apontador P = verificaBalanceamento(chave,*A);
 	if (P != NULL){
+		Apontador U;
+		
+		hep = nNiveis(P->esq);
+		hdp = nNiveis(P->dir);
+		
+		//altura à direita de T é maior que à esqueda
+		if (hdp > hep){
+			U = P->dir;
+			
+			hdu = nNiveis(U->dir);
+			heu = nNiveis(U->esq);
+			
+			if (hdu >= heu){
+				//rotação simples à esquerda
+				RE(A,P,U);
+			}
+			else{
+				//Rotação dupla à esquerda
+				RDE(A,P,U);
+			}
+		}
+		else{ //altura à esquerda de T é maior que à direita
+			U = P->esq;
+			
+			hdu = nNiveis(U->dir);
+			heu = nNiveis(U->esq);
+			
+			if (heu >= hdu){
+				//Rotação simples à direita
+				RD(A,P,U);
+			}
+			else{
+				//Rotação dupla à direita
+				RDD(A,P,U);
+			}
+		}
+	}
+}
+
+void removeAVL(int chave, Apontador *A){
+	int direcao;
+	
+	if (chave >= (*A)->Dado)
+		direcao = 1;
+	else
+		direcao = 0;
+	
+	Remove(chave,*A);
+	
+	int ultimo = achaUltimo(*A,direcao);
+	
+	Apontador P = verificaBalanceamento(ultimo,*A);
+	
+	if (P != NULL){
+		int hdp,hep; //alturas direita e esquerda do nó "P"(primeiro nó desregulado caminhando-se a partir do inserido)
+		int hdu,heu;//alturas do nó "U"(filho de "P" no caminho até o nó inserido).
+		
 		Apontador U;
 		
 		hep = nNiveis(P->esq);
