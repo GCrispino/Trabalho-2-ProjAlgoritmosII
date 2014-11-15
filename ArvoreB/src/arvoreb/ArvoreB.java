@@ -199,7 +199,54 @@ public class ArvoreB {
     }
 
     public void delete(Node no, int chave) {
-
+        if (no.mIsNoFolha) { // 1. Se a chave está no no e se esse nó é um no folha, entao deletar a chave deste no.
+            int i;
+            if ((i = no.buscaBinaria(chave)) != -1) { // chave é a iésima chave do no e o no contem a chave.
+                no.remove(i, NO_FILHO_ESQUERDA);
+            }
+        } else {
+            int i;
+            if ((i = no.buscaBinaria(chave)) != -1) { // 2. Se o no é um no interno e contem a chave... (chave é a iésima chave do no, e o no contem a chave)
+                Node noFilhoEsquerda = no.mNosFilhos[i];
+                Node noFilhoDireita = no.mNosFilhos[i + 1];
+                if (noFilhoEsquerda.mNumChaves >= T) { // 2a. Se o no filho antecedente(filho esquerda) tem ao menos T chaves...
+                    Node noAntecedente = noFilhoEsquerda;
+                    Node noApagavel = noAntecedente; // Tenha certeza de nao apagar uma chave de um no com apenas T-1 elementos.
+                    while (!noAntecedente.mIsNoFolha) {// Portanto só descer para o no anterior (noApagavel) do no antecedente e delete a chave usando 3.
+                        noApagavel = noAntecedente;
+                        noAntecedente = noAntecedente.mNosFilhos[no.mNumChaves - 1];
+                    }
+                    no.mChaves[i] = noAntecedente.mChaves[noAntecedente.mNumChaves - 1];
+                    no.mObjects[i] = noAntecedente.mObjects[noAntecedente.mNumChaves - 1];
+                    delete(noApagavel, no.mChaves[i]);
+                } else if (noFilhoDireita.mNumChaves >= T) { // 2b. Se o no filho sucessor(filho direita) tem ao menos T chaves...
+                    Node noSucessor = noFilhoDireita;
+                    Node noApagavel = noSucessor; // Tenha certeza de nao apagar uma chave de um no com apenas T-1 elementos.
+                    while (!noSucessor.mIsNoFolha) {// Portanto só descer para o no anterior (noApagavel) do no sucessor e delete a chave usando 3.
+                        noApagavel = noSucessor;
+                        noSucessor = noSucessor.mNosFilhos[0];
+                    }
+                    no.mChaves[i] = noSucessor.mChaves[0];
+                    no.mObjects[i] = noSucessor.mObjects[0];
+                    delete(noApagavel, no.mChaves[i]);
+                } else {// 2c. Se ambos, antecessor e sucessor tem apenasT-1 chaves...
+                    // Se ambos filhos tem nos para esquerda e direita do elemento deletado tem o numero minimo de elementos,
+                    // ou seja, T - 1, eles podem ser unidos em um unico no com 2 * T - 2 elementos.
+                    int indiceChaveDoMeio = unirNos(noFilhoEsquerda, noFilhoDireita);
+                    moveChave(no, i, NO_FILHO_DIREITA, noFilhoEsquerda, indiceChaveDoMeio); // Delete os i's filhos de ponteiros da direita do no.(Delete i's right child pointer from node.)
+                    delete(noFilhoEsquerda, chave);
+                }
+            } else { // 3. Se a chave nao é reenviada no nó(If the key is not resent in node), desca até a raiz da apropriada subarvore quedeve conter a chave...
+                // O método é estruturado para garantir que sepre que delete é chamado recursivamente no nó "no", o número de chave no nó é ao menos no minimo T.
+                // Note que essa condição requer mais uma chave alem do minimo pedido usualmente pelas condições da Arvores-B. Essa condição reforçada permite-nos
+                // deletar a chave da arvore um uma passada descendente sem sermos que "voltar pra cima" (This strengthened condition allows us to delete a key from the tree in one downward pass
+                // without having to "back up".)
+                i = no.indiceNoRaizSubArvore(chave);
+                Node noFilho = no.mNosFilhos[i]; // noFilho é o iésimo filho do no.
+                //parei na linha 250
+                // https://code.google.com/p/himmele/source/browse/trunk/Algorithms%20and%20Data%20Structures/BTree/src/BTree.java
+            }
+        }
     }
 
     // Merge two nodes and keep the median key (element) empty.
