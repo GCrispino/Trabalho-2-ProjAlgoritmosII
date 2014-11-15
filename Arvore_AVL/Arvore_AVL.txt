@@ -1,0 +1,1 @@
+./Debug/main.c.o ./Debug/Arvore_binaria.c.o ./Debug/AVL.c.o   
