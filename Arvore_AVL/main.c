@@ -5,15 +5,19 @@
 int main(int argc, char **argv)
 {
 	Apontador A = CriaArvore();
-//	Apontador T = CriaArvore();
 	
-	
-	insereAVL(10,A);
-	insereAVL(15,A);
-	insereAVL(7,A);
-	insereAVL(5,A);
-	Insere(6,A);
-	insereAVL(4,A);
+	insereAVL(10,&A);
+	printf("\n");
+	ImprimePreOrdem(A);
+	getch();
+	insereAVL(20,&A);
+	printf("\n");
+	ImprimePreOrdem(A);
+	getch();
+	insereAVL(15,&A);
+	printf("\n");
+	ImprimePreOrdem(A);
+	getch();
 	//insereAVL(20,A);
 	//Insere(18,A);
 	//insereAVL(25,A);

@@ -41,13 +41,13 @@ Apontador verificaBalanceamento(int chave, Apontador A){
 }
 
 //insere um elemento na árvore.
-void insereAVL(int chave, Apontador A){
+void insereAVL(int chave, Apontador *A){
 	int hdp,hep; //alturas direita e esquerda do nó "P"(primeiro nó desregulado caminhando-se a partir do inserido)
 	int hdu,heu;//alturas do nó "U"(filho de "P" no caminho até o nó inserido).
 	
-	Insere(chave,A);
+	Insere(chave,*A);
 	
-	Apontador P = verificaBalanceamento(chave,A);
+	Apontador P = verificaBalanceamento(chave,*A);
 	if (P != NULL){
 		Apontador U;
 		
@@ -104,24 +104,19 @@ Apontador buscaApontador(Apontador A,Apontador filho){
 		return NULL;
 }
 
-void RE(Apontador A,Apontador P, Apontador U){
+void RE(Apontador *A,Apontador P, Apontador U){
 	//"PaiP" é o pai do apontador P.
-	Apontador PaiP = buscaApontador(A,P),aux;
-	
+	Apontador PaiP = buscaApontador(*A,P),aux;
 	if (PaiP == 0){//significa que o "P" da vez é a raíz, portanto esse nó não tem pai
-		//PaiP = A; //é atribuído ao apontador "PaiP" o apontador da raíz, para que a função prossiga normalmente.
+		P = *A;
+		*A = U;
 		
-		printf("\nU: %d\n",U->Dado);
+		aux = U->esq;
+		U->esq = P;
 		
-		/*A = U;
 		
-		if (U->esq)
-			aux = U->esq;
-		else
-			aux = NULL;
+		P->dir = aux;
 			
-		U->esq = aux;*/
-		//aux->dir = aux2;
 	}
 	else{
 		if (PaiP->dir == P){
@@ -146,14 +141,14 @@ void RE(Apontador A,Apontador P, Apontador U){
 	}
 }
 
-void RD(Apontador A,Apontador P, Apontador U){
+void RD(Apontador *A,Apontador P, Apontador U){
 	//"PaiP" é o pai do apontador P.
-	Apontador PaiP = buscaApontador(A,P),aux;
+	Apontador PaiP = buscaApontador(*A,P),aux;
 	if (PaiP == 0){//significa que o "P" da vez é a raíz, portanto esse nó não tem pai
 		//PaiP = A; //é atribuído ao apontador "PaiP" o apontador da raíz, para que a função prossiga normalmente.
 		
-		aux = A;
-		A = U;
+		aux = *A;
+		*A = U;
 		
 		if (U->dir)
 			aux = U->dir;
@@ -188,7 +183,7 @@ void RD(Apontador A,Apontador P, Apontador U){
 	}
 }
 
-void RDE(Apontador A,Apontador P, Apontador U){
+void RDE(Apontador *A,Apontador P, Apontador U){
 	Apontador filhoU;//filho de U partindo-se do nó inserido
 	int hdu,heu,hdp,hep;
 	
@@ -200,6 +195,7 @@ void RDE(Apontador A,Apontador P, Apontador U){
 	else
 		filhoU = U->esq;
 	
+	
 	RD(A,U,filhoU);
 	
 	hdp = nNiveis(P->dir);
@@ -210,10 +206,11 @@ void RDE(Apontador A,Apontador P, Apontador U){
 	else
 		U = P->esq;
 	
+	
 	RE(A,P,U);
 }
 
-void RDD(Apontador A,Apontador P, Apontador U){
+void RDD(Apontador *A,Apontador P, Apontador U){
 	Apontador filhoU;//filho de U partindo-se do nó inserido
 	
 	int hdu,heu,hdp,hep;
