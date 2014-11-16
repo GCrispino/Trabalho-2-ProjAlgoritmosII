@@ -243,20 +243,130 @@ public class ArvoreB {
                 // without having to "back up".)
                 i = no.indiceNoRaizSubArvore(chave);
                 Node noFilho = no.mNosFilhos[i]; // noFilho é o iésimo filho do no.
-                //parei na linha 250
-                // https://code.google.com/p/himmele/source/browse/trunk/Algorithms%20and%20Data%20Structures/BTree/src/BTree.java
+                if (noFilho.mNumChaves == T - 1) {
+                    Node irmaoFilhoDireita = (i - 1 >= 0) ? no.mNosFilhos[i - 1] : null;
+                    Node irmaoFilhoEsquerda = (i + 1 <= no.mNumChaves) ? no.mNosFilhos[i + 1] : null;
+                    if (irmaoFilhoEsquerda != null && irmaoFilhoEsquerda.mNumChaves >= T) { // 3a. O irmao da esquerda tem >= T chaves...
+                        // Move a key from the subtree's root node down into childNode along with the appropriate child pointer.
+                        // Therefore, first shift all elements and children of childNode right by 1.                        
+                        //
+                        // Move a chave da subarvore do no raiz, para baixo, no noFilho no apropriado ponteiro filho.
+                        // Portanto, primeiro desloque todos os elementos e filhos do noFilho em 1, para a direita.
+                        noFilho.deslocarUmParaDireita();
+                        noFilho.mChaves[0] = no.mChaves[i - 1]; // i-1 é o indice da chave que é menor que a chave do noFilho.
+                        noFilho.mObjects[0] = no.mObjects[i - 1];
+                        if (!noFilho.mIsNoFolha) {
+                            noFilho.mNosFilhos[0] = irmaoFilhoEsquerda.mNosFilhos[irmaoFilhoEsquerda.mNumChaves];
+                        }
+                        noFilho.mNumChaves++;
+
+                        // Move uma chave do irmao da esquerda para o no raiz da subarvore.
+                        no.mChaves[i - 1] = irmaoFilhoEsquerda.mChaves[irmaoFilhoEsquerda.mNumChaves - 1];
+                        no.mObjects[i - 1] = irmaoFilhoEsquerda.mObjects[irmaoFilhoEsquerda.mNumChaves - 1];
+
+                        // Remove a chave do irmao da esquerda juntamente com o no filho da direita.
+                        irmaoFilhoEsquerda.remove(irmaoFilhoEsquerda.mNumChaves - 1, NO_FILHO_DIREITA);
+                    } else if (irmaoFilhoDireita != null && irmaoFilhoDireita.mNumChaves >= T) { // 3b. O irmao da direita tem >= T chaves...
+                        // Move a chave da subarvore do no raiz, para baixo, no noFilho no apropriado ponteiro filho.
+                        noFilho.mChaves[noFilho.mNumChaves] = no.mChaves[i]; // i é o indice da chave no no que é maior que a maior chave do noFilho
+                        noFilho.mObjects[noFilho.mNumChaves] = no.mObjects[i];
+                        if (!noFilho.mIsNoFolha) {
+                            noFilho.mNosFilhos[noFilho.mNumChaves + 1] = irmaoFilhoDireita.mNosFilhos[0];
+                        }
+                        noFilho.mNumChaves++;
+
+                        // Move uma chave do irmao da direita para o no raiz da subarvore.
+                        no.mChaves[i] = irmaoFilhoDireita.mChaves[0];
+                        no.mObjects[i] = irmaoFilhoDireita.mObjects[0];
+
+                        // Remove a chave do irmao da esquerda juntamente com o no filho da esquerda.
+                        irmaoFilhoDireita.remove(0, NO_FILHO_ESQUERDA);
+                    } else { // 3c. Ambos irmaos do noFilho tem somente T - 1 chaves cada...
+                        if (irmaoFilhoEsquerda != null) {
+                            int indiceChaveMeio = unirNos(noFilho, irmaoFilhoEsquerda);
+                            moveChave(no, i - 1, NO_FILHO_ESQUERDA, noFilho, indiceChaveMeio); // i-1 é o indice da chave do meio no no quando une com o irmao da esquerda.
+                        } else if (irmaoFilhoDireita != null) {
+                            int indiceChaveMeio = unirNos(noFilho, irmaoFilhoDireita);
+                            moveChave(no, i - 1, NO_FILHO_ESQUERDA, noFilho, indiceChaveMeio); // i-1 é o indice da chave do meio no no quando une com o irmao da esquerda.
+                        }
+                    }
+                }
+                delete(noFilho, chave);
             }
         }
     }
 
     // Merge two nodes and keep the median key (element) empty.
+    // Une dois nós e retorna a chave (elemento) do meio vazio;
     int unirNos(Node dstNode, Node srcNode) {
-        return 0;
+        int indiceChaveMeio;
+        if (srcNode.mChaves[0] < dstNode.mChaves[dstNode.mNumChaves - 1]) {
+            int i;
+            // Shift all elements of dstNode right by srcNode.mNumKeys + 1 to make place for the srcNode and the median key.
+            // Desloca todos os elementos de dstNode para a direira em srcNode.mNumChaves + 1 para dar espaco para a chave do meio e srcNode
+            if (!dstNode.mIsNoFolha) {
+                dstNode.mNosFilhos[srcNode.mNumChaves + dstNode.mNumChaves + 1] = dstNode.mNosFilhos[dstNode.mNumChaves];
+            }
+            for (i = dstNode.mNumChaves; i > 0; i--) {
+                dstNode.mChaves[srcNode.mNumChaves + 1] = dstNode.mChaves[i - 1];
+                dstNode.mObjects[srcNode.mNumChaves + 1] = dstNode.mObjects[i - 1];
+                if (!dstNode.mIsNoFolha) {
+                    dstNode.mNosFilhos[srcNode.mNumChaves + 1] = dstNode.mNosFilhos[i - 1];
+                }
+            }
+
+            // Limpa a chave (elemento) do meio
+            indiceChaveMeio = srcNode.mNumChaves;
+            dstNode.mChaves[indiceChaveMeio] = 0;
+            dstNode.mObjects[indiceChaveMeio] = null;
+
+            // Copia os elemento de srcNode para dstNode.
+            for (i = 0; i < srcNode.mNumChaves; i++) {
+                dstNode.mChaves[i] = srcNode.mChaves[i];
+                dstNode.mObjects[i] = srcNode.mObjects[i];
+                if (!srcNode.mIsNoFolha) {
+                    dstNode.mNosFilhos[i] = srcNode.mNosFilhos[i];
+                }
+            }
+            if (!srcNode.mIsNoFolha) {
+                dstNode.mNosFilhos[i] = srcNode.mNosFilhos[i];
+            }
+        } else {
+            // Limpa a chave (elemento) do meio
+            indiceChaveMeio = dstNode.mNumChaves;
+            dstNode.mChaves[indiceChaveMeio] = 0;
+            dstNode.mObjects[indiceChaveMeio] = null;
+
+            // Copia os elemento de srcNode para dstNode.
+            int offset = indiceChaveMeio + 1;
+            int i;
+            for (i = 0; i < srcNode.mNumChaves; i++) {
+                dstNode.mChaves[offset + i] = srcNode.mChaves[i];
+                dstNode.mObjects[offset + i] = srcNode.mObjects[i];
+                if (!srcNode.mIsNoFolha) {
+                    dstNode.mNosFilhos[offset + 1] = srcNode.mNosFilhos[i];
+                }
+            }
+            if (!srcNode.mIsNoFolha) {
+                dstNode.mNosFilhos[offset + 1] = srcNode.mNosFilhos[i];
+            }
+        }
+        dstNode.mNumChaves+=srcNode.mNumChaves;
+        return indiceChaveMeio;
     }
 
     // Move the key from srcNode at index into dstNode at medianKeyIndex. Note that the element at index is already empty.
-    void moveChave(Node srcNode, int srcKeyIndex, int childIndex, Node dstNode, int medianKeyIndex) {
-
+    // Move a chave do srcNode no indice para o dstNode no indiceChaveMeio. Note que o elemento no indice já esta vazio.
+    void moveChave(Node srcNode, int srcIndiceChave, int indiceFilho, Node dstNode, int indiceChaveMeio) {
+        dstNode.mChaves[indiceChaveMeio] = srcNode.mChaves[srcIndiceChave];
+        dstNode.mObjects[indiceChaveMeio] = srcNode.mObjects[srcIndiceChave];
+        dstNode.mNumChaves++;
+        
+        srcNode.remove(srcIndiceChave, indiceFilho);
+        
+        if(srcNode == mNoRaiz && srcNode.mNumChaves == 0){
+            mNoRaiz = dstNode;
+        }
     }
 
     public Object search(int chave) {
