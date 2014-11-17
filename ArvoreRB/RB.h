@@ -17,12 +17,12 @@ typedef struct arvore{
 }Arvore;
 
 Apontador CriaArvore();
-void Insere(int d,Apontador A);
-void checaRB_caso1(Apontador A);
-void checaRB_caso2(Apontador A);
-void checaRB_caso3(Apontador A);
-void checaRB_caso4(Apontador A);
-void checaRB_caso5(Apontador A);
+void Insere(int d,Apontador A, Apontador *raiz);
+void checaRB_caso1(Apontador A, Apontador *raiz);
+void checaRB_caso2(Apontador A, Apontador *raiz);
+void checaRB_caso3(Apontador A, Apontador *raiz);
+void checaRB_caso4(Apontador A, Apontador *raiz);
+void checaRB_caso5(Apontador A, Apontador *raiz);
 void RD(Apontador *A,Apontador P, Apontador U);
 void RE(Apontador *A,Apontador P, Apontador U);
 Apontador Remove(int d, Apontador A);

@@ -19,30 +19,30 @@ Apontador CriaArvore() {
     return A;
 }
 
-void Insere(int d, Apontador A) {
+void Insere(int d, Apontador A, Apontador *raiz) {
 
     if (A->Dado == -1) {
         A->Dado = d;
-        checaRB_caso1(A);
+        checaRB_caso1(A, raiz);
     } else if (d < A->Dado) {
         if (A->esq) { //Checa se existe filho esquerdo
-            Insere(d, A->esq);
+            Insere(d, A->esq, raiz);
         } else {
             Apontador novo = CriaArvore();
             novo->Dado = d;
             novo->pai = A;
             A->esq = novo;
-            checaRB_caso1(novo);
+            checaRB_caso1(novo, raiz);
         }
     } else if (d > A->Dado) {
         if (A->dir) { //checa se existe filho a direita
-            Insere(d, A->dir);
+            Insere(d, A->dir, raiz);
         } else {
             Apontador novo = CriaArvore();
             novo->Dado = d;
             novo->pai = A;
             A->dir = novo;
-            checaRB_caso1(novo);
+            checaRB_caso1(novo, raiz);
         }
     } else {
         printf("\nElemento %d ja presente na arvore", d);
@@ -66,21 +66,24 @@ Apontador AchaTio(Apontador A) {
         return avo->esq;
 }
 
-void checaRB_caso1(Apontador A) {
+void checaRB_caso1(Apontador A, Apontador *raiz) {
+    cout << "Caso 1.\n";
     if (A->pai == NULL) {
         A->cor = 'P';
     } else
-        checaRB_caso2(A);
+        checaRB_caso2(A, raiz);
 }
 
-void checaRB_caso2(Apontador A) {
+void checaRB_caso2(Apontador A, Apontador *raiz) {
+    cout << "Caso 2.\n";
     if (A->pai->cor == 'P')
         return; /* Árvore ainda é válida */
     else
-        checaRB_caso3(A);
+        checaRB_caso3(A, raiz);
 }
 
-void checaRB_caso3(Apontador A) {
+void checaRB_caso3(Apontador A, Apontador *raiz) {
+    cout << "Caso 3.\n";
     Apontador tio = AchaTio(A);
     Apontador avo;
     if ((tio != NULL) && (tio->cor == 'V')) {
@@ -88,44 +91,50 @@ void checaRB_caso3(Apontador A) {
         tio->cor = 'P';
         avo = AchaAvo(A);
         avo->cor = 'V';
-        checaRB_caso1(avo);
+        checaRB_caso1(avo, raiz);
     } else {
-        checaRB_caso4(A);
+        checaRB_caso4(A, raiz);
     }
 }
 
-void checaRB_caso4(Apontador A) {
+void checaRB_caso4(Apontador A, Apontador *raiz) {
+    cout << "Caso 4.\n";
     Apontador avo = AchaAvo(A);
-
     if ((A == A->pai->dir) && (A->pai == avo->esq)) {
-        		RE(A->pai);
+        cout << "RE4.\n";
+        RE(raiz, A->pai, A->pai->dir);
         A = A->esq;
     } else if ((A == A->pai->esq) && (A->pai == avo->dir)) {
-        		RD(A->pai);
+        cout << "RD4.\n";
+        RD(raiz, A->pai, A->pai->esq);
         A = A->dir;
     }
-    checaRB_caso5(A);
+    
+    ImprimePreOrdem(A);
+    checaRB_caso5(A, raiz);
+    system("pause");
 }
 
-void checaRB_caso5(Apontador A) {
+void checaRB_caso5(Apontador A, Apontador *raiz) {
     Apontador avo = AchaAvo(A);
-
     A->pai->cor = 'P';
     avo->cor = 'V';
     if ((A == A->pai->esq) && (A->pai == avo->esq)) {
-        		RD(avo);
+        cout << "RD5.\n";
+        RD(raiz, avo, avo->esq);
     } else {
         /*
          * Aqui, (n == n->pai->direita) && (n->pai == g->direita).
          */
-        		RE(avo);
+        cout << "RE5.\n";
+        RE(raiz, avo, avo->dir);
     }
 }
 
 void ImprimePreOrdem(Apontador A) {
     if (A != NULL) {
         cout << A->Dado << "-";
-        cout << A->cor;
+        cout << A->cor << endl;
         ImprimePreOrdem(A->esq);
         ImprimePreOrdem(A->dir);
     }
@@ -195,85 +204,79 @@ Apontador AchaMenor(Apontador A) {
     else
         return AchaMenor(A->esq);
 }
-void RE(Apontador *A,Apontador P, Apontador U){
-	//"PaiP" é o pai do apontador P.
-	Apontador PaiP = P->pai;
-        Apontador aux;
-	if (PaiP == 0){//significa que o "P" da vez é a raíz, portanto esse nó não tem pai
-		P = *A;
-		*A = U;
-		
-		aux = U->esq;
-		U->esq = P;
-		
-		
-		P->dir = aux;
-			
-	}
-	else{
-		if (PaiP->dir == P){
-			//O nó que aponta para P aponta agora para U(filho de P)
-			PaiP->dir = U;
-			
-			//A variável auxiliar guarda o endereço do elemento à esquerda de U
-			aux = U->esq;
-			//O apontador à esquerda de U passa a apontar para P
-			U->esq = P;
-			//O apontador à direita de P passa a apontar para o endereço salvo na variável auxiliar
-			P->dir = aux;
-		}
-		else{
-			PaiP->esq = U;
-				
-			aux = U->esq;
-						
-			U->esq = P;
-			P->dir = aux;
-		}
-	}
+
+void RE(Apontador *A, Apontador P, Apontador U) {
+    //"PaiP" é o pai do apontador P.
+    
+    Apontador PaiP = P->pai;
+    Apontador aux;
+    if (PaiP == NULL) {//significa que o "P" da vez é a raíz, portanto esse nó não tem pai
+        P = *A;
+        *A = U;
+        aux = U->esq;
+        U->esq = P;
+        P->dir = aux;
+
+    } else {
+        if (PaiP->dir == P) {
+            //O nó que aponta para P aponta agora para U(filho de P)
+            PaiP->dir = U;
+            U->pai = PaiP;
+            P->pai = U;
+            //A variável auxiliar guarda o endereço do elemento à esquerda de U
+            aux = U->esq;
+            //O apontador à esquerda de U passa a apontar para P
+            U->esq = P;
+            //O apontador à direita de P passa a apontar para o endereço salvo na variável auxiliar
+            P->dir = aux;
+        } else {
+            PaiP->esq = U;
+            U->pai = PaiP;
+            P->pai = U;
+            aux = U->esq;
+            U->esq = P;
+            P->dir = aux;
+            cout<<"\n\n";
+            ImprimePreOrdem(*A);
+            system("pause");
+            cout<<"\n\n";
+        }
+    }
 }
 
-void RD(Apontador *A,Apontador P, Apontador U){
-	//"PaiP" é o pai do apontador P.
-	Apontador PaiP = P->pai;
-        Apontador aux;
-	if (PaiP == NULL){//significa que o "P" da vez é a raíz, portanto esse nó não tem pai
-		//PaiP = A; //é atribuído ao apontador "PaiP" o apontador da raíz, para que a função prossiga normalmente.
-		
-		aux = *A;
-		*A = U;
-		
-		if (U->dir)
-			aux = U->dir;
-		else
-			aux = NULL;
-			
-		U->dir = aux;
-	}
-	else{
-		if (PaiP->dir == P){
-			PaiP->dir = U;
-					
-			if (U->dir)
-				aux = U->dir;
-			else
-				aux = NULL;
-			
-			U->dir = P;
-			P->esq = NULL;
-		}
-		else{
-			PaiP->esq = U;
-						
-			if (U->dir)
-				aux = U->dir;
-			else
-				aux = NULL;
-							
-			U->dir = P;
-			P->esq = aux;
-		}
-	}
+void RD(Apontador *A, Apontador P, Apontador U) {
+    //"PaiP" é o pai do apontador P.
+    Apontador PaiP = P->pai;
+//    cout<<"PaiP:"<<PaiP->Dado<<endl;
+    Apontador aux;
+    if (PaiP == NULL) {//significa que o "P" da vez é a raíz, portanto esse nó não tem pai
+        //        PaiP = &A; //é atribuído ao apontador "PaiP" o apontador da raíz, para que a função prossiga normalmente.
+        *A = U;
+        aux = U->dir;
+        U->dir = P;
+        P->esq = aux;
+
+        //        if (U->dir){
+        //            cout<<"1.\n";
+        //            aux = U->dir;
+        //        } else{
+        //            cout<<"2\n";
+        //            aux = NULL;
+        //        }
+        //        U->dir = aux;
+    } else {
+        if (PaiP->dir == P) {
+            PaiP->dir = U;
+            aux = U->dir;
+            U->dir = P;
+            P->esq = aux;
+        } else {
+            PaiP->esq = U;
+            aux = U->dir;
+            U->dir = P;
+            P->esq = aux;
+        }
+    }
 }
 
 
