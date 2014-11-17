@@ -110,9 +110,9 @@ void checaRB_caso4(Apontador A, Apontador *raiz) {
         A = A->dir;
     }
     
-    ImprimePreOrdem(A);
+    
     checaRB_caso5(A, raiz);
-    system("pause");
+    
 }
 
 void checaRB_caso5(Apontador A, Apontador *raiz) {
@@ -124,11 +124,26 @@ void checaRB_caso5(Apontador A, Apontador *raiz) {
         RD(raiz, avo, avo->esq);
     } else {
         /*
-         * Aqui, (n == n->pai->direita) && (n->pai == g->direita).
+         * Aqui, (A == A->pai->dir) && (A->pai == avo->dir).
          */
         cout << "RE5.\n";
         RE(raiz, avo, avo->dir);
     }
+}
+void show(Apontador x, int b) { 
+    if (x == NULL) {
+        for (int i = 0; i < b; i++) cout<<"   ";
+        cout<<"-||"<<endl;
+        return;
+    }
+    show(x->dir, b+1);    
+    printnode(x, b);
+    show(x->esq, b+1);    
+}
+void printnode(Apontador x, int esp) {
+    int i;     
+    for (i = 0; i < esp; i++) cout<<"   ";
+    cout<<x->Dado<<"("<<x->cor<<")"<<endl;
 }
 
 void ImprimePreOrdem(Apontador A) {
@@ -171,7 +186,6 @@ Apontador Busca(int d, Apontador A) {
 
 Apontador Remove(int d, Apontador A) {
     Apontador aux;
-
     if (A == NULL)
         printf("\nElemento nao encontrado!");
     else if (d < A->Dado)
@@ -180,14 +194,17 @@ Apontador Remove(int d, Apontador A) {
         A->dir = Remove(d, A->dir);
     else if (A->dir == NULL && A->esq == NULL) {
         free(A);
+        cout<<"Elemento "<<d<<" removido com sucesso.\n";
         return NULL;
     } else if (A->dir == NULL) {
         aux = A->esq;
         free(A);
+        cout<<"Elemento "<<d<<" removido com sucesso.\n";
         return aux;
     } else if (A->esq == NULL) {
         aux = A->dir;
         free(A);
+        cout<<"Elemento "<<d<<" removido com sucesso.\n";
         return aux;
     } else {
         Apontador aux2 = AchaMenor(A->dir);
@@ -213,6 +230,8 @@ void RE(Apontador *A, Apontador P, Apontador U) {
     if (PaiP == NULL) {//significa que o "P" da vez é a raíz, portanto esse nó não tem pai
         P = *A;
         *A = U;
+        U->pai = NULL;
+        P->pai = *A;
         aux = U->esq;
         U->esq = P;
         P->dir = aux;
@@ -236,10 +255,7 @@ void RE(Apontador *A, Apontador P, Apontador U) {
             aux = U->esq;
             U->esq = P;
             P->dir = aux;
-            cout<<"\n\n";
-            ImprimePreOrdem(*A);
-            system("pause");
-            cout<<"\n\n";
+            
         }
     }
 }
@@ -254,25 +270,21 @@ void RD(Apontador *A, Apontador P, Apontador U) {
         *A = U;
         aux = U->dir;
         U->dir = P;
-        P->esq = aux;
-
-        //        if (U->dir){
-        //            cout<<"1.\n";
-        //            aux = U->dir;
-        //        } else{
-        //            cout<<"2\n";
-        //            aux = NULL;
-        //        }
-        //        U->dir = aux;
+        P->esq = aux;        
     } else {
         if (PaiP->dir == P) {
             PaiP->dir = U;
+            U->pai = PaiP;
+            P->pai = U;
             aux = U->dir;
             U->dir = P;
-            P->esq = aux;
+            P->esq = aux;       
+            
         } else {
             PaiP->esq = U;
             aux = U->dir;
+            U->pai = PaiP;
+            P->pai = U;
             U->dir = P;
             P->esq = aux;
         }
