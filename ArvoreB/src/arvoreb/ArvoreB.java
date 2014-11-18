@@ -351,7 +351,7 @@ public class ArvoreB {
                 dstNode.mNosFilhos[offset + 1] = srcNode.mNosFilhos[i];
             }
         }
-        dstNode.mNumChaves+=srcNode.mNumChaves;
+        dstNode.mNumChaves += srcNode.mNumChaves;
         return indiceChaveMeio;
     }
 
@@ -361,10 +361,10 @@ public class ArvoreB {
         dstNode.mChaves[indiceChaveMeio] = srcNode.mChaves[srcIndiceChave];
         dstNode.mObjects[indiceChaveMeio] = srcNode.mObjects[srcIndiceChave];
         dstNode.mNumChaves++;
-        
+
         srcNode.remove(srcIndiceChave, indiceFilho);
-        
-        if(srcNode == mNoRaiz && srcNode.mNumChaves == 0){
+
+        if (srcNode == mNoRaiz && srcNode.mNumChaves == 0) {
             mNoRaiz = dstNode;
         }
     }
@@ -373,27 +373,82 @@ public class ArvoreB {
         return search(mNoRaiz, chave);
     }
 
-    // Recursive search method.
+    // Metodo de busca recursivo.
     public Object search(Node no, int chave) {
-        return null;
+        int i = 0;
+        while (i < no.mNumChaves && chave > no.mChaves[i]) {
+            i++;
+        }
+        if (i < no.mNumChaves && chave == no.mChaves[i]) {
+            return no.mObjects[i];
+        }
+        if (no.mIsNoFolha) {
+            return null;
+        } else {
+            return search(no.mNosFilhos[i], chave);
+        }
     }
 
     public Object search2(int chave) {
         return search2(mNoRaiz, chave);
     }
 
-    // Iterative search method.
+    // Metodo de busca iterativo.
     public Object search2(Node no, int chave) {
+        while (no != null) {
+            int i = 0;
+            while (i < no.mNumChaves && chave > no.mChaves[i]) {
+                i++;
+            }
+            if (i < no.mNumChaves && chave == no.mChaves[i]) {
+                return no.mObjects[i];
+            }
+            if (no.mIsNoFolha) {
+                return null;
+            } else {
+                no = no.mNosFilhos[i];
+            }
+        }
         return null;
     }
 
     private boolean atualizar(Node no, int chave, Object object) {
+        while (no != null) {
+            int i = 0;
+            while (i < no.mNumChaves && chave > no.mChaves[i]) {
+                i++;
+            }
+            if (i < no.mNumChaves && chave == no.mChaves[i]) {
+                no.mObjects[i] = object;
+                return true;
+            }
+            if (no.mIsNoFolha) {
+                return false;
+            } else {
+                no = no.mNosFilhos[i];
+            }
+        }
         return false;
     }
 
-    // Inorder walk over the tree.
+    // Caminhamento em ordem pela arvore.
     String printArvoreB(Node no) {
-        return "";
+        String string = "";
+        if (no != null) {
+            if (no.mIsNoFolha) {
+                for (int i = 0; i < no.mNumChaves; i++) {
+                    string += no.mObjects[i] + ", ";
+                }
+            } else {
+                int i;
+                for (i = 0; i < no.mNumChaves; i++) {
+                    string += printArvoreB(no.mNosFilhos[i]);
+                    string += no.mObjects[i] + ", ";
+                }
+                string += printArvoreB(no.mNosFilhos[i]);
+            }
+        }
+        return string;
     }
 
     @Override
@@ -401,12 +456,32 @@ public class ArvoreB {
         return printArvoreB(mNoRaiz);
     }
 
-    void validar() throws Exception {
-
+    void validar() throws Exception{
+        ArrayList<Integer> array = getChaves(mNoRaiz);
+        for (int i = 0; i < array.size() - 1; i++) {
+            if (array.get(i) >= array.get(i + 1)) {
+                throw new Exception("Arvore-B invalida: " + array.get(i) + " maior que " + array.get(i + 1));
+            }
+        }
     }
 
-    // Inorder walk over the tree.
+    // Caminhamento em ordem pela arvore.
     ArrayList<Integer> getChaves(Node no) {
-        return null;
+        ArrayList<Integer> array = new ArrayList<Integer>();
+        if(no!=null){
+            if(no.mIsNoFolha){
+                for (int i = 0; i < no.mNumChaves; i++) {
+                    array.add(no.mChaves[i]);
+                }
+            }else{
+                int i;
+                for (i = 0; i < no.mNumChaves; i++) {
+                    array.addAll(getChaves(no.mNosFilhos[i]));
+                    array.add(no.mChaves[i]);
+                }
+                array.addAll(getChaves(no.mNosFilhos[i]));
+            }
+        }
+        return array;
     }
 }
