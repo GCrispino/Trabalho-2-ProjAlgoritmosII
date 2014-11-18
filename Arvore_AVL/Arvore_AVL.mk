@@ -5,7 +5,7 @@
 ## Debug
 ProjectName            :=Arvore_AVL
 ConfigurationName      :=Debug
-WorkspacePath          := "C:\Users\Crispino\Documents\Programas_Diversos"
+WorkspacePath          := "C:\Program Files (x86)\CodeLite"
 ProjectPath            := "C:\Users\Crispino\Documents\Programas_Diversos\Trabalho-2-ProjAlgoritmosII\Arvore_AVL"
 IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Crispino
-Date                   :=11/15/14
+Date                   :=11/18/14
 CodeLitePath           :="C:\Program Files (x86)\CodeLite"
 LinkerName             :=C:/MinGW-4.8.1/bin/g++.exe 
 SharedObjectLinkerName :=C:/MinGW-4.8.1/bin/g++.exe -shared -fPIC
@@ -124,6 +124,6 @@ clean:
 	$(RM) ./Debug/*$(DependSuffix)
 	$(RM) $(OutputFile)
 	$(RM) $(OutputFile).exe
-	$(RM) "../../.build-debug/Arvore_AVL"
+	$(RM) "../../../../../../Program Files (x86)/CodeLite/.build-debug/Arvore_AVL"
 
 
