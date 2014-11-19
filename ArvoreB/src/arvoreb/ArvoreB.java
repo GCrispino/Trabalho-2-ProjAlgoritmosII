@@ -450,6 +450,15 @@ public class ArvoreB {
         }
         return string;
     }
+    String printArvoreBonita(Node no){
+        String string = "";
+        int i = 0;
+        Node auxNo = no;
+        while(auxNo != null){
+            
+        }
+        return string;
+    }
 
     @Override
     public String toString() {

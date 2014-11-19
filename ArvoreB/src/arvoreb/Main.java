@@ -16,10 +16,24 @@ public class Main {
      */
     public static void main(String[] args) {
         ArvoreB arvoreB = new ArvoreB();
+        BTree bitri = new BTree();
         test1(arvoreB);
     }
+
+    public static void test1(BTree bitri){
+        bitri.add(1, "1");
+        bitri.add(2, "2");
+        bitri.add(3, "3");
+        bitri.add(4, "4");
+        bitri.add(5, "5");
+        bitri.add(6, "6");
+        bitri.add(7, "7");
+        bitri.add(8, "8");
+        bitri.add(9, "9");
+        System.out.println(bitri.toString());
+    }
     
-    public static void test1(ArvoreB arvoreB){
+    public static void test1(ArvoreB arvoreB) {
         arvoreB.adicionar(1, "1");
         arvoreB.adicionar(2, "2");
         arvoreB.adicionar(3, "3");
@@ -31,5 +45,4 @@ public class Main {
         arvoreB.adicionar(9, "9");
         System.out.println(arvoreB.toString());
     }
-    
 }
