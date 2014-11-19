@@ -6,6 +6,7 @@
 package arvoreb;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  */
 public class ArvoreB {
 
-    private static final int T = 4;
+    private static final int T = 2;
     private Node mNoRaiz;
     private static final int NO_FILHO_ESQUERDA = 0;
     private static final int NO_FILHO_DIREITA = 1;
@@ -450,22 +451,64 @@ public class ArvoreB {
         }
         return string;
     }
-    String printArvoreBonita(Node no){
+
+    String printArvoreBonita(Node no) {
         String string = "";
         int i = 0;
         Node auxNo = no;
-        while(auxNo != null){
-            
+        ArrayList<ArrayList<Object>> out = new ArrayList<>();
+        while (auxNo != null) {
+            auxNo = auxNo.mNosFilhos[0];
+            out.add(new ArrayList<>());
+        }
+//        out.get(0).addAll(Arrays.asList(no.mObjects));
+        for (Object object : no.mObjects) {
+            if (object != null) {
+                out.get(i).add(object);
+            }
+        }
+        for (Node node : no.mNosFilhos) {
+            out = printLevel(node, out, i + 1);
+        }
+//        for (ArrayList<Object> nivel : out) {
+        for (int j = 0; j < out.size(); j++) {
+            ArrayList<Object> nivel = out.get(j);
+            string += (j + 1) + ": ";
+            for (Object object : nivel) {
+                string += object;
+                string += " ";
+            }
+            string += "\n";
         }
         return string;
+
+    }
+
+    private ArrayList<ArrayList<Object>> printLevel(Node no, ArrayList<ArrayList<Object>> in, int nivel) {
+        if (no != null) {
+            ArrayList<ArrayList<Object>> out = in;
+//            out.get(nivel).addAll(Arrays.asList(no.mObjects));
+            for (Object object : no.mObjects) {
+                if (object != null) {
+                    out.get(nivel).add(object);
+                }
+//                out.get(nivel).add(", ");
+            }
+            out.get(nivel).add("|");
+            for (Node node : no.mNosFilhos) {
+                out = printLevel(node, out, nivel + 1);
+            }
+            return out;
+        }
+        return in;
     }
 
     @Override
     public String toString() {
-        return printArvoreB(mNoRaiz);
+        return printArvoreBonita(mNoRaiz);
     }
 
-    void validar() throws Exception{
+    void validar() throws Exception {
         ArrayList<Integer> array = getChaves(mNoRaiz);
         for (int i = 0; i < array.size() - 1; i++) {
             if (array.get(i) >= array.get(i + 1)) {
@@ -477,12 +520,12 @@ public class ArvoreB {
     // Caminhamento em ordem pela arvore.
     ArrayList<Integer> getChaves(Node no) {
         ArrayList<Integer> array = new ArrayList<Integer>();
-        if(no!=null){
-            if(no.mIsNoFolha){
+        if (no != null) {
+            if (no.mIsNoFolha) {
                 for (int i = 0; i < no.mNumChaves; i++) {
                     array.add(no.mChaves[i]);
                 }
-            }else{
+            } else {
                 int i;
                 for (i = 0; i < no.mNumChaves; i++) {
                     array.addAll(getChaves(no.mNosFilhos[i]));
