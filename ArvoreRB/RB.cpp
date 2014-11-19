@@ -67,7 +67,6 @@ Apontador AchaTio(Apontador A) {
 }
 
 void checaRB_caso1(Apontador A, Apontador *raiz) {
-    cout << "Caso 1.\n";
     if (A->pai == NULL) {
         A->cor = 'P';
     } else
@@ -75,7 +74,6 @@ void checaRB_caso1(Apontador A, Apontador *raiz) {
 }
 
 void checaRB_caso2(Apontador A, Apontador *raiz) {
-    cout << "Caso 2.\n";
     if (A->pai->cor == 'P')
         return; /* Árvore ainda é válida */
     else
@@ -83,7 +81,6 @@ void checaRB_caso2(Apontador A, Apontador *raiz) {
 }
 
 void checaRB_caso3(Apontador A, Apontador *raiz) {
-    cout << "Caso 3.\n";
     Apontador tio = AchaTio(A);
     Apontador avo;
     if ((tio != NULL) && (tio->cor == 'V')) {
@@ -101,11 +98,9 @@ void checaRB_caso4(Apontador A, Apontador *raiz) {
     cout << "Caso 4.\n";
     Apontador avo = AchaAvo(A);
     if ((A == A->pai->dir) && (A->pai == avo->esq)) {
-        cout << "RE4.\n";
         RE(raiz, A->pai, A->pai->dir);
         A = A->esq;
     } else if ((A == A->pai->esq) && (A->pai == avo->dir)) {
-        cout << "RD4.\n";
         RD(raiz, A->pai, A->pai->esq);
         A = A->dir;
     }
@@ -120,13 +115,11 @@ void checaRB_caso5(Apontador A, Apontador *raiz) {
     A->pai->cor = 'P';
     avo->cor = 'V';
     if ((A == A->pai->esq) && (A->pai == avo->esq)) {
-        cout << "RD5.\n";
         RD(raiz, avo, avo->esq);
     } else {
         /*
          * Aqui, (A == A->pai->dir) && (A->pai == avo->dir).
          */
-        cout << "RE5.\n";
         RE(raiz, avo, avo->dir);
     }
 }
@@ -146,31 +139,7 @@ void printnode(Apontador x, int esp) {
     cout<<x->Dado<<"("<<x->cor<<")"<<endl;
 }
 
-void ImprimePreOrdem(Apontador A) {
-    if (A != NULL) {
-        cout << A->Dado << "-";
-        cout << A->cor << endl;
-        ImprimePreOrdem(A->esq);
-        ImprimePreOrdem(A->dir);
-    }
 
-}
-
-void ImprimeEmOrdem(Apontador A) {
-    if (A != NULL) {
-        ImprimeEmOrdem(A->esq);
-        printf("%d ", A->Dado);
-        ImprimeEmOrdem(A->dir);
-    }
-}
-
-void ImprimePosOrdem(Apontador A) {
-    if (A != NULL) {
-        ImprimePosOrdem(A->esq);
-        ImprimePosOrdem(A->dir);
-        printf("%d ", A->Dado);
-    }
-}
 
 Apontador Busca(int d, Apontador A) {
     if (A != NULL) {
@@ -188,28 +157,36 @@ Apontador Remove(int d, Apontador A) {
     Apontador aux;
     if (A == NULL)
         printf("\nElemento nao encontrado!");
-    else if (d < A->Dado)
+    else if (d < A->Dado){
+        cout<<A->Dado<<endl;
         A->esq = Remove(d, A->esq);
-    else if (d > A->Dado)
+    }else if (d > A->Dado){
+        cout<<A->Dado<<endl;
         A->dir = Remove(d, A->dir);
-    else if (A->dir == NULL && A->esq == NULL) {
+    }else if (A->dir == NULL && A->esq == NULL) {
+        cout<<A->Dado<<endl;
         free(A);
-        cout<<"Elemento "<<d<<" removido com sucesso.\n";
+        cout<<"Elemento removido com sucesso.\n";
         return NULL;
     } else if (A->dir == NULL) {
+        cout<<A->Dado<<endl;
         aux = A->esq;
         free(A);
-        cout<<"Elemento "<<d<<" removido com sucesso.\n";
+        cout<<"Elemento removido com sucesso.\n";        
         return aux;
     } else if (A->esq == NULL) {
+        cout<<A->Dado<<endl;
         aux = A->dir;
         free(A);
-        cout<<"Elemento "<<d<<" removido com sucesso.\n";
+        cout<<"Elemento removido com sucesso.\n";
         return aux;
     } else {
+        cout<<"D6\n";
+        cout<<A->Dado<<endl;        
         Apontador aux2 = AchaMenor(A->dir);
-        A->Dado = aux2->Dado;
+        A->Dado = aux2->Dado;        
         A->dir = Remove(aux2->Dado, A->dir);
+        
         return A;
     }
     return A;

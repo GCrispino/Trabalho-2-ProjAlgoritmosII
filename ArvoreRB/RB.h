@@ -30,9 +30,7 @@ Apontador Busca(int d,Apontador A);
 Apontador AchaMenor(Apontador A) ;
 void show(Apontador x, int b);
 void printnode(Apontador x, int esp);
-void ImprimePreOrdem(Apontador A);
-void ImprimeEmOrdem(Apontador A);
-void ImprimePosOrdem(Apontador A);
+
 
 
 
