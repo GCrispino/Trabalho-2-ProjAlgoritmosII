@@ -1,6 +1,7 @@
 #include "Arvore_Binaria.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 
 Apontador CriaArvore(){
 	Apontador A = (Apontador)malloc(sizeof(Arvore));
@@ -29,8 +30,11 @@ void Insere(int d, Apontador A){
 					novo->Dado = d;
 					A->dir = novo;
 				}
-			else
-				printf("\nElemento %d ja presente na arvore",d);
+			else{
+				printf("\nChave %d ja presente na arvore",d);
+				getch();
+			}
+				
 }
 
 void ImprimePreOrdem(Apontador A){
