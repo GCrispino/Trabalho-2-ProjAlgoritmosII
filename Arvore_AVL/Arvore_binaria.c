@@ -57,6 +57,26 @@ void ImprimePosOrdem(Apontador A){
 	}
 }
 
+void show(Apontador x, int b) { 
+     int i;
+     
+    if (x == NULL) {
+        for (i = 0; i < b; i++) printf("   ");
+        printf("-||\n");
+        return;
+    }
+    show(x->dir, b+1);    
+    printnode(x, b);
+    show(x->esq, b+1);    
+}
+
+void printnode(Apontador x, int esp) {
+    int i;     
+    for (i = 0; i < esp; i++) printf("   ");
+    //cout<<x->Dado<<"("<<x->cor<<")"<<endl;
+    printf("%d\n",x->Dado);
+}
+
 Apontador Busca(int d,Apontador A){
 	if (A != NULL){
 		if (d < A->Dado)
@@ -111,7 +131,6 @@ Apontador AchaMenor(Apontador A){
 
 int nNiveis(Apontador A){
 	int u,v;
-	
 	if (A == NULL)
 		return -1;
 	
@@ -133,7 +152,6 @@ int achaUltimo(Apontador A,int direcao){
 			A = A->dir;
 	else
 		return -1;
-	//printf("\nA: %d",A->Dado);
 	
 	return A->Dado;
 }

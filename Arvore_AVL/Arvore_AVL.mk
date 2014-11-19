@@ -5,16 +5,16 @@
 ## Debug
 ProjectName            :=Arvore_AVL
 ConfigurationName      :=Debug
-WorkspacePath          := "C:\Program Files (x86)\CodeLite"
-ProjectPath            := "C:\Users\Crispino\Documents\Programas_Diversos\Trabalho-2-ProjAlgoritmosII\Arvore_AVL"
+WorkspacePath          := "C:\Users\LAB4-PROFESSOR\Documents\GitHub\Netflix\Programa\Netflix\Trabalho"
+ProjectPath            := "C:\Users\LAB4-PROFESSOR\Documents\GitHub\Trabalho-2-ProjAlgoritmosII\Arvore_AVL"
 IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
-User                   :=Crispino
-Date                   :=11/18/14
-CodeLitePath           :="C:\Program Files (x86)\CodeLite"
+User                   :=LAB4-PROFESSOR
+Date                   :=11/19/14
+CodeLitePath           :="C:\Program Files\CodeLite"
 LinkerName             :=C:/MinGW-4.8.1/bin/g++.exe 
 SharedObjectLinkerName :=C:/MinGW-4.8.1/bin/g++.exe -shared -fPIC
 ObjectSuffix           :=.o
@@ -61,7 +61,7 @@ AS       := C:/MinGW-4.8.1/bin/as.exe
 ##
 ## User defined environment variables
 ##
-CodeLiteDir:=C:\Program Files (x86)\CodeLite
+CodeLiteDir:=C:\Program Files\CodeLite
 UNIT_TEST_PP_SRC_DIR:=C:\UnitTest++-1.3
 Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/Arvore_binaria.c$(ObjectSuffix) $(IntermediateDirectory)/AVL.c$(ObjectSuffix) 
 
@@ -91,7 +91,7 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/main.c$(ObjectSuffix): main.c $(IntermediateDirectory)/main.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/Crispino/Documents/Programas_Diversos/Trabalho-2-ProjAlgoritmosII/Arvore_AVL/main.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/LAB4-PROFESSOR/Documents/GitHub/Trabalho-2-ProjAlgoritmosII/Arvore_AVL/main.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/main.c$(DependSuffix): main.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/main.c$(ObjectSuffix) -MF$(IntermediateDirectory)/main.c$(DependSuffix) -MM "main.c"
 
@@ -99,7 +99,7 @@ $(IntermediateDirectory)/main.c$(PreprocessSuffix): main.c
 	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/main.c$(PreprocessSuffix) "main.c"
 
 $(IntermediateDirectory)/Arvore_binaria.c$(ObjectSuffix): Arvore_binaria.c $(IntermediateDirectory)/Arvore_binaria.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/Crispino/Documents/Programas_Diversos/Trabalho-2-ProjAlgoritmosII/Arvore_AVL/Arvore_binaria.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/Arvore_binaria.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/LAB4-PROFESSOR/Documents/GitHub/Trabalho-2-ProjAlgoritmosII/Arvore_AVL/Arvore_binaria.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/Arvore_binaria.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/Arvore_binaria.c$(DependSuffix): Arvore_binaria.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/Arvore_binaria.c$(ObjectSuffix) -MF$(IntermediateDirectory)/Arvore_binaria.c$(DependSuffix) -MM "Arvore_binaria.c"
 
@@ -107,7 +107,7 @@ $(IntermediateDirectory)/Arvore_binaria.c$(PreprocessSuffix): Arvore_binaria.c
 	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/Arvore_binaria.c$(PreprocessSuffix) "Arvore_binaria.c"
 
 $(IntermediateDirectory)/AVL.c$(ObjectSuffix): AVL.c $(IntermediateDirectory)/AVL.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/Crispino/Documents/Programas_Diversos/Trabalho-2-ProjAlgoritmosII/Arvore_AVL/AVL.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/AVL.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/LAB4-PROFESSOR/Documents/GitHub/Trabalho-2-ProjAlgoritmosII/Arvore_AVL/AVL.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/AVL.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/AVL.c$(DependSuffix): AVL.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/AVL.c$(ObjectSuffix) -MF$(IntermediateDirectory)/AVL.c$(DependSuffix) -MM "AVL.c"
 
@@ -124,6 +124,6 @@ clean:
 	$(RM) ./Debug/*$(DependSuffix)
 	$(RM) $(OutputFile)
 	$(RM) $(OutputFile).exe
-	$(RM) "../../../../../../Program Files (x86)/CodeLite/.build-debug/Arvore_AVL"
+	$(RM) "../../Netflix/Programa/Netflix/Trabalho/.build-debug/Arvore_AVL"
 
 

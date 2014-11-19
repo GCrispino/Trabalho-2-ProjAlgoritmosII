@@ -10,86 +10,7 @@ void menuImprimir();
 int main(int argc, char **argv)
 {
 	Apontador A = CriaArvore();
-	int n,opcao;
-	
-	/*insereAVL(15,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	insereAVL(5,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	insereAVL(1,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	insereAVL(5,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	insereAVL(18,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	insereAVL(13,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	insereAVL(10,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	insereAVL(12,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	insereAVL(23,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	insereAVL(21,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	//insereAVL(20,A);
-	//Insere(18,A);
-	//insereAVL(25,A);
-	
-	removeAVL(10,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	removeAVL(20,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	removeAVL(15,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	removeAVL(25,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();
-	
-	removeAVL(30,&A);
-	printf("\n");
-	ImprimePreOrdem(A);
-	getch();*/
+	int n,opcao,opcao2;
 	
 	do{
 		system("cls");
@@ -109,20 +30,20 @@ int main(int argc, char **argv)
 				break;
 			case 3:
 				menuImprimir();
-				scanf("%d",&opcao);
-					switch(opcao){
+				scanf("%d",&opcao2);
+				printf("\nArvore: \n");
+					switch(opcao2){
 						case 1:
-							printf("\nArvore: \n");
 							ImprimeEmOrdem(A);
 							break;
 						case 2:
-							printf("\nArvore: \n");
 							ImprimePreOrdem(A);
 							break;
 						case 3:
-							printf("\nArvore: \n");
 							ImprimePosOrdem(A);
 							break;
+						case 4:
+                             show(A,0);
 						default:
 							printf("\nOpcao invalida!");
 					}
@@ -148,7 +69,7 @@ int main(int argc, char **argv)
 void menu(){
 	printf("\nEscolha uma opcao: ");
 	printf("\n1. Inserir um elemento na arvore: ");
-	printf("\n2. Remover um elemento da árvore: ");
+	printf("\n2. Remover um elemento da arvore: ");
 	printf("\n3. Imprimir a arvore: ");
 	printf("\n4. Sair do programa: ");
 }
@@ -157,4 +78,5 @@ void menuImprimir(){
 	printf("\n1. Imprimir em ordem. ");
 	printf("\n2. Imprimir pre ordem.");
 	printf("\n3. Imprimir pos ordem.");
+	printf("\n4. Imprimir de forma organizada.");
 }

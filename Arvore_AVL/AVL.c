@@ -14,7 +14,7 @@ bool isBalanceada(Apontador A){
 
 Apontador verificaBalanceamento(int chave, Apontador A){
 	Apontador T = NULL;
-	
+
 	if (Busca(chave,A) == NULL){
 		printf("\nElemento passado nao encontrado!");
 		return NULL;
@@ -47,19 +47,18 @@ void insereAVL(int chave, Apontador *A){
 	Insere(chave,*A);
 	
 	Apontador P = verificaBalanceamento(chave,*A);
+	
 	if (P != NULL){
 		Apontador U;
 		
 		hep = nNiveis(P->esq);
-		hdp = nNiveis(P->dir);
 		
+		hdp = nNiveis(P->dir);
 		//altura à direita de T é maior que à esqueda
 		if (hdp > hep){
 			U = P->dir;
-			
 			hdu = nNiveis(U->dir);
 			heu = nNiveis(U->esq);
-			
 			if (hdu >= heu){
 				//rotação simples à esquerda
 				RE(A,P,U);
@@ -71,7 +70,6 @@ void insereAVL(int chave, Apontador *A){
 		}
 		else{ //altura à esquerda de T é maior que à direita
 			U = P->esq;
-			
 			hdu = nNiveis(U->dir);
 			heu = nNiveis(U->esq);
 			
